@@ -13,7 +13,7 @@ in_work = None
 def get_messages():
     global in_work
     print('-----------------------')
-    api_key = '3zrY:1yrVwciyd-wzZCA2913-5FJwfP45Mi'
+    api_key = 'SN8:1jywpU5b:6Ynhc9LVmJQbW1:S7BVBxW'
     response = get('https://photomap-br2s.onrender.com//bots_api/all_chats', json={
         'api_key': api_key
     }).json()['messages']

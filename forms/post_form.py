@@ -5,5 +5,5 @@ from flask_wtf.file import FileField, FileRequired
 
 
 class PostForm(FlaskForm):
-    address = StringField("Адрес")
+    # address = StringField("Адрес")
     submit = SubmitField("Создать пост")

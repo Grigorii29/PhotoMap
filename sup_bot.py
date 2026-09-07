@@ -13,15 +13,14 @@ in_work = None
 def get_messages():
     global in_work
     print('-----------------------')
-    api_key = 'SN8:1jywpU5b:6Ynhc9LVmJQbW1:S7BVBxW'
-    response = get('https://photomap-br2s.onrender.com//bots_api/all_chats', json={
+    api_key = 'U<1EGT8t<6g61Uhox7mLm06Z15DOb:Quhai'
+    response = get('https://photomap-2.onrender.com//bots_api/all_chats', json={
         'api_key': api_key
     }).json()['messages']
-
     for message in response:
         if message['user_id'] == 1:
             if in_work:
-                response_post = post('https://photomap-br2s.onrender.com//bots_api/send_message', json={
+                response_post = post('https://photomap-2.onrender.com//bots_api/send_message', json={
                     'content': message['content'],
                     'user_id': in_work[1],
                     'api_key': api_key
@@ -40,14 +39,14 @@ def get_messages():
                 if all_on_bd:
                     in_work = all_on_bd[0]
                     print(in_work)
-                    response_post = post('https://photomap-br2s.onrender.com//bots_api/send_message', json={
+                    response_post = post('https://photomap-2.onrender.com//bots_api/send_message', json={
                         'content': in_work[3],
                         'user_id': 1,
                         'api_key': api_key
                     }).json()
                     pprint.pprint(response_post)
             else:
-                response_post = post('https://photomap-br2s.onrender.com//bots_api/send_message', json={
+                response_post = post('https://photomap-2.onrender.com//bots_api/send_message', json={
                     'content': 'Новых сообщений нет',
                     'user_id': 1,
                     'api_key': api_key
@@ -64,7 +63,7 @@ def get_messages():
                 all_on_bd = cur.execute("""SELECT * FROM queue""").fetchall()
                 if all_on_bd:
                     in_work = all_on_bd[0]
-                    response_post = post('https://photomap-br2s.onrender.com//bots_api/send_message', json={
+                    response_post = post('https://photomap-2.onrender.com//bots_api/send_message', json={
                         'content': in_work[3],
                         'user_id': 1,
                         'api_key': api_key

@@ -11,7 +11,7 @@ class Posts(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     img_link = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'), nullable=True)
-    map_link = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    # map_link = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     date_create = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now())
 
     user = orm.relationship('User')

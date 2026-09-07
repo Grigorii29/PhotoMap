@@ -26,7 +26,6 @@ from data.bot_messages import BotMessages
 from data.bot_chats import BotChats
 from data import bots_api
 
-static_apikey = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
 
 app = Flask(__name__)
 with open('settings') as f:
@@ -84,13 +83,13 @@ def open_post(id):
     return rend
 
 
-@app.route('/open_map/<int:id>')
-def open_map(id):
-    db_sess = db_session.create_session()
-    post = db_sess.get(Posts, id)
-    rend = render_template('map.html', post=post)
-    db_sess.close()
-    return rend
+# @app.route('/open_map/<int:id>')
+# def open_map(id):
+#     db_sess = db_session.create_session()
+#     post = db_sess.get(Posts, id)
+#     rend = render_template('map.html', post=post)
+#     db_sess.close()
+#     return rend
 
 
 @login_manager.user_loader
@@ -262,37 +261,37 @@ def create_post():
         if f:
             file_type = f.filename.split('.')[-1].lower()
             if file_type == 'jpg' or file_type == 'jpeg' or file_type == 'png':
-                address = form.address.data
+                # address = form.address.data
                 post = Posts()
                 post.user_id = current_user.id
                 db_sess = db_session.create_session()
                 db_sess.add(post)
                 db_sess.commit()
-                if address:
-                    try:
-                        server_address = 'http://geocode-maps.yandex.ru/1.x/?'
-                        api_key = '8013b162-6b42-4997-9691-77b7074026e0'
-                        geocoder_request = f'{server_address}apikey={api_key}&geocode={address}&format=json'
-                        response = get(geocoder_request).json()
-                        # pprint.pprint(response)
-                        # with open(f'{address}.json', 'w', encoding='utf8') as f:
-                        #     js = json.dumps(response, indent=4, ensure_ascii=False)
-                        #     print(js, file=f)
-                        coords = response['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point'][
-                            'pos']
-                        server_address = 'https://static-maps.yandex.ru/v1?'
-                        api_key = 'f3a0fe3a-b07e-4840-a1da-06f18b2ddf13'
-                        ll_spn = f'll={','.join(coords.split())}&spn=0.020457,0.00619'
-
-                        map_request = f"{server_address}{ll_spn}&apikey={api_key}"
-                        response = get(map_request)
-                        # print(response.url)
-                        with open(f'static/maps/map{post.id}.png', "wb") as file:
-                            file.write(response.content)
-
-                        post.map_link = f'/static/maps/map{post.id}.png'
-                    except Exception:
-                        post.map_link = None
+                # if address:
+                #     try:
+                #         server_address = 'http://geocode-maps.yandex.ru/1.x/?'
+                #         api_key = '8013b162-6b42-4997-9691-77b7074026e0'
+                #         geocoder_request = f'{server_address}apikey={api_key}&geocode={address}&format=json'
+                #         response = get(geocoder_request).json()
+                #         # pprint.pprint(response)
+                #         # with open(f'{address}.json', 'w', encoding='utf8') as f:
+                #         #     js = json.dumps(response, indent=4, ensure_ascii=False)
+                #         #     print(js, file=f)
+                #         coords = response['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point'][
+                #             'pos']
+                #         server_address = 'https://static-maps.yandex.ru/v1?'
+                #         api_key = 'f3a0fe3a-b07e-4840-a1da-06f18b2ddf13'
+                #         ll_spn = f'll={','.join(coords.split())}&spn=0.020457,0.00619'
+                #
+                #         map_request = f"{server_address}{ll_spn}&apikey={api_key}"
+                #         response = get(map_request)
+                #         # print(response.url)
+                #         with open(f'static/maps/map{post.id}.png', "wb") as file:
+                #             file.write(response.content)
+                #
+                #         post.map_link = f'/static/maps/map{post.id}.png'
+                #     except Exception:
+                #         post.map_link = None
 
                 f.save(f'static/posts/post{post.id}.jpg')
                 post.img_link = f'/static/posts/post{post.id}.jpg'
